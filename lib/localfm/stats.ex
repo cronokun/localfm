@@ -1,6 +1,8 @@
 defmodule LocalFM.Stats do
   defstruct [:top_albums, :top_artists, :top_tracks]
 
+  @limit 10
+
   def generate(data) do
     stats =
       %__MODULE__{}
@@ -16,7 +18,7 @@ defmodule LocalFM.Stats do
       data
       |> Enum.frequencies_by(fn t -> {album_artist(t), t.album} end)
       |> Enum.sort_by(fn {_, n} -> n end, :desc)
-      |> Enum.take(10)
+      |> Enum.take(@limit)
 
     Map.put(stats, :top_albums, top_albums)
   end
@@ -24,9 +26,9 @@ defmodule LocalFM.Stats do
   defp put_top_artists(stats, data) do
     top_artists =
       data
-      |> Enum.frequencies_by(fn t -> album_artist(t) end)
+      |> Enum.frequencies_by(fn t -> song_artist(t) end)
       |> Enum.sort_by(fn {_, n} -> n end, :desc)
-      |> Enum.take(10)
+      |> Enum.take(@limit)
 
     Map.put(stats, :top_artists, top_artists)
   end
@@ -35,8 +37,12 @@ defmodule LocalFM.Stats do
     if compilation?(entry.album) do
       "Various Artists"
     else
-      entry.artist |> String.split(" feat. ") |> List.first()
+      song_artist(entry)
     end
+  end
+
+  defp song_artist(entry) do
+    entry.artist |> String.split(" feat. ") |> List.first()
   end
 
   @comp_regexes [
@@ -55,7 +61,7 @@ defmodule LocalFM.Stats do
       data
       |> Enum.frequencies_by(fn t -> {t.artist, t.album, t.track} end)
       |> Enum.sort_by(fn {_, n} -> n end, :desc)
-      |> Enum.take(10)
+      |> Enum.take(@limit)
 
     Map.put(stats, :top_tracks, top_tracks)
   end
