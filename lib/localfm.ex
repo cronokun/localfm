@@ -9,5 +9,5 @@ defmodule LocalFM do
 
   def retrieve_data, do: LocalFM.Downloader.retrieve_data()
   def parse_data(data), do: LocalFM.Parser.parse(data)
-  def generate_stats(entries), do: LocalFM.Stats.generate(entries)
+  def generate_stats(entries, date_range \\ :all_time), do: LocalFM.Stats.generate(entries, date_range)
 end
