@@ -1,77 +1,87 @@
 defmodule LocalFM.Output.Text do
-  import String, only: [pad_leading: 2, pad_trailing: 2]
-
-  @number_padding 4
-  @entry_padding 65
-  @count_padding 10
-  @total_padding 80
+  @index_padding 4
+  @count_padding 6
+  @total_padding 79
 
   def print(%LocalFM.Stats{} = stats) do
     date_range = date_range_to_s(stats.date_range)
 
     IO.puts([
+      "\n",
       format_section_header("Top Artists", date_range),
-      format_artists_list(stats.top_artists),
+      format_list(stats.top_artists, &format_artist/1),
       format_section_header("Top Albums", date_range),
-      format_albums_list(stats.top_albums),
+      format_list(stats.top_albums, &format_album/1),
       format_section_header("Top Tracks", date_range),
-      format_tracks_list(stats.top_tracks)
+      format_list(stats.top_tracks, &format_track/1)
     ])
   end
 
   defp format_section_header(header, date_range) do
-    pad_length = @total_padding - String.length(header) - String.length(date_range)
+    pad_length = @total_padding - String.length(header) - String.length(date_range) - 2
     padding = String.duplicate(" ", pad_length)
-    section_header = header <> padding <> date_range
-    underline = String.replace(section_header, ~r/./,"_")
+    section_header = (" " <> header <> " ") |> reverse_str()
 
-    [
-      "\n",
-      section_header,
-      "\n",
-      underline,
-      "\n\n"
-    ]
+    ["\n", section_header, padding, underline_str(date_range), "\n\n"]
   end
 
-  defp format_albums_list(list) do
-    list |> Enum.with_index(1) |> Enum.map(&format_album/1)
-  end
-
-  defp format_artists_list(list) do
-    list |> Enum.with_index(1) |> Enum.map(&format_artist/1)
-  end
-
-  defp format_tracks_list(list) do
-    list |> Enum.with_index(1) |> Enum.map(&format_track/1)
+  defp format_list(list, format_fun) do
+    list |> Enum.with_index(1) |> Enum.map(format_fun)
   end
 
   defp format_artist({{artist, count}, index}) do
-    [
-      pad_trailing("#{index}.", @number_padding),
-      pad_trailing(artist, @entry_padding),
-      " ",
-      pad_leading("(#{play_or_plays(count)})\n", @count_padding)
-    ]
+    length = String.length(artist)
+
+    format_list_item(
+      {artist, length},
+      index,
+      count
+    )
   end
 
   defp format_album({{{artist, album}, count}, index}) do
-    [
-      pad_trailing("#{index}.", @number_padding),
-      pad_trailing("\"#{album}\" by #{artist}", @entry_padding),
-      " ",
-      pad_leading("(#{play_or_plays(count)})\n", @count_padding)
-    ]
+    length = String.length(artist) + String.length(album)  + 3
+
+    format_list_item(
+      {"#{album} — #{bold_str(artist)}", length},
+      index,
+      count
+    )
   end
 
   def format_track({{{artist, _album, track}, count}, index}) do
+    length = String.length(artist) + String.length(track) + 3
+
+    format_list_item(
+      {"#{track} — #{bold_str(artist)}", length},
+      index,
+      count
+    )
+  end
+
+  defp format_list_item({str, str_length}, index, count) do
+    length = str_length + String.length(to_string(count))
+
     [
-      pad_trailing("#{index}.", @number_padding),
-      pad_trailing("\"#{track}\" by #{artist}", @entry_padding),
-      " ",
-      pad_leading("(#{play_or_plays(count)})\n", @count_padding)
+      formated_index(index),
+      str,
+      padding(length),
+      formated_play_count(count),
+      "\n"
     ]
   end
+
+  defp formated_index(index) do
+    idx_str = (index |> to_string() |> String.pad_leading(2))
+    idx_str <> ". "
+  end
+
+  defp padding(length) do
+    padding_length = @total_padding - @count_padding - @index_padding - length
+    String.duplicate(" ", padding_length)
+  end
+
+  defp formated_play_count(count), do: "#{play_or_plays(count)}" |> italic_str()
 
   defp play_or_plays(1), do: "1 play"
   defp play_or_plays(n), do: "#{n} plays"
@@ -82,4 +92,9 @@ defmodule LocalFM.Output.Text do
   defp date_range_to_s(:last_90_days), do: "Last 90 days"
   defp date_range_to_s(:last_180_days), do: "Last 180 days"
   defp date_range_to_s(:last_365_days), do: "Last 365 days"
+
+  defp bold_str(str) when is_binary(str), do: "\e[1m" <> str <> "\e[0m"
+  defp italic_str(str) when is_binary(str), do: "\e[3m" <> str <> "\e[0m"
+  defp underline_str(str) when is_binary(str), do: "\e[4m" <> str <> "\e[0m"
+  defp reverse_str(str) when is_binary(str), do: "\e[1;7m" <> str <> "\e[0m"
 end
