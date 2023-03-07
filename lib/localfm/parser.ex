@@ -16,7 +16,7 @@ defmodule LocalFM.Parser do
 
   defp convert_line("<li" <> _rest = line) do
     captures = Regex.named_captures(@regex, line)
-    [artist, album] = String.split(captures["album"], " - ")
+    [artist, album] = String.split(captures["album"], " - ", parts: 2)
     Map.merge(captures, %{"artist" => artist, "album" => album})
   end
 
