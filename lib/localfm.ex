@@ -1,4 +1,6 @@
 defmodule LocalFM do
+  @opts %{limit: 10, date_range: 30}
+
   def run do
     {:ok, data} = retrieve_data()
     {:ok, entries} = parse_data(data)
@@ -9,5 +11,5 @@ defmodule LocalFM do
 
   def retrieve_data, do: LocalFM.Downloader.retrieve_data()
   def parse_data(data), do: LocalFM.Parser.parse(data)
-  def generate_stats(entries, date_range \\ :all_time), do: LocalFM.Stats.generate(entries, date_range)
+  def generate_stats(entries, opts \\ @opts), do: LocalFM.Stats.generate(entries, opts)
 end
