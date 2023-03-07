@@ -1,7 +1,7 @@
 defmodule LocalFM.Output.Text do
   @index_padding 4
   @count_padding 6
-  @total_padding 79
+  @total_padding 99
 
   def print(%LocalFM.Stats{} = stats) do
     date_range = date_range_to_s(stats.date_range)
@@ -77,7 +77,8 @@ defmodule LocalFM.Output.Text do
   end
 
   defp padding(length) do
-    padding_length = @total_padding - @count_padding - @index_padding - length
+    padding_length = max(@total_padding - @count_padding - @index_padding - length, 1)
+
     String.duplicate(" ", padding_length)
   end
 
