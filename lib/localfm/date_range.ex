@@ -11,6 +11,6 @@ defmodule LocalFM.DateRange do
     start = Date.add(now, -n)
     range = Date.range(start, now)
 
-    fn entry -> entry.timestamp in range end
+    fn entry -> NaiveDateTime.to_date(entry.timestamp) in range end
   end
 end

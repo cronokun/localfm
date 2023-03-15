@@ -13,8 +13,16 @@ defmodule LocalFM.Output.Text do
       format_section_header("Top Albums", date_range),
       format_list(stats.top_albums, &format_album/1),
       format_section_header("Top Tracks", date_range),
-      format_list(stats.top_tracks, &format_track/1)
+      format_list(stats.top_tracks, &format_track/1),
+      format_section_header("Recently Played"),
+      format_list(stats.last_played, &format_track_with_timestamp/1)
     ])
+  end
+
+  defp format_section_header(header) do
+    section_header = (" " <> header <> " ") |> reverse_str()
+
+    ["\n", section_header, "\n\n"]
   end
 
   defp format_section_header(header, date_range) do
@@ -57,6 +65,19 @@ defmodule LocalFM.Output.Text do
       index,
       count
     )
+  end
+
+  def format_track_with_timestamp({{{artist, _album, track}, timestamp}, _index}) do
+    str = "• #{track} — #{bold_str(artist)}"
+    timestamp = Calendar.strftime(timestamp, "%d %b %Y, %H:%M")
+    padding_length = @total_padding - String.length(track) - String.length(artist) - String.length(timestamp) - 5
+
+    [
+      str,
+      String.duplicate(" ", max(padding_length, 1)),
+      timestamp,
+      "\n"
+    ]
   end
 
   defp format_list_item({str, str_length}, index, count) do

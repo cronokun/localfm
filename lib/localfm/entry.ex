@@ -11,7 +11,7 @@ defmodule LocalFM.Entry do
   end
 
   defp timestamp_to_datetime(string) do
-    {:ok, timestamp} = string |> String.split(" ") |> hd() |> Date.from_iso8601()
+    {:ok, timestamp} = NaiveDateTime.from_iso8601("#{string}:00")
     timestamp
   end 
 end

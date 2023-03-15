@@ -1,5 +1,5 @@
 defmodule LocalFM.Stats do
-  defstruct [:top_albums, :top_artists, :top_tracks, :date_range]
+  defstruct [:top_albums, :top_artists, :top_tracks, :last_played, :date_range]
 
   def generate(data, opts) do
     range = LocalFM.DateRange.choose(opts.date_range)
@@ -10,6 +10,7 @@ defmodule LocalFM.Stats do
       |> put_top_albums(data, range, opts.limit)
       |> put_top_artists(data, range, opts.limit)
       |> put_top_tracks(data, range, opts.limit)
+      |> put_last_played(data, opts.limit)
 
     {:ok, stats}
   end
@@ -30,6 +31,16 @@ defmodule LocalFM.Stats do
     top_tracks = process_data(data, range, limit, fn t -> {t.artist, t.album, t.track} end)
 
     Map.put(stats, :top_tracks, top_tracks)
+  end
+
+  defp put_last_played(stats, data, limit) do
+    last_played_tracks =
+      data
+      |> Enum.reverse()
+      |> Enum.take(limit)
+      |> Enum.map(fn t -> {{t.artist, t.album, t.track}, t.timestamp} end)
+
+    Map.put(stats, :last_played, last_played_tracks)
   end
 
   defp process_data(data, range, limit, selector) do
