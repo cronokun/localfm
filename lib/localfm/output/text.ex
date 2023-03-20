@@ -75,7 +75,7 @@ defmodule LocalFM.Output.Text do
     [
       str,
       String.duplicate(" ", max(padding_length, 1)),
-      timestamp,
+      italic_str(timestamp),
       "\n"
     ]
   end

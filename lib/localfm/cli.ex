@@ -8,20 +8,25 @@ defmodule LocalFM.CLI do
   def main(args) do
     opts = Config.parse(args)
 
-    IO.puts "\n  retrieving data from MoodeAudio..."
+    IO.puts("") # new line
+    info "Retrieving data from MoodeAudio"
     {:ok, data} = LocalFM.retrieve_data()
 
-    IO.puts "  parsing data..."
+    info "Parsing data"
     {:ok, entries} = LocalFM.parse_data(data)
 
-    IO.puts "  calculating statistics..."
+    info "Calculating statistics"
     {:ok, stats} = LocalFM.generate_stats(entries, opts)
 
-    IO.puts "  done!"
+    info "Done!"
 
     case opts.output do
       :text -> LocalFM.Output.Text.print(stats)
       _ -> raise "Output not yet implemented..."
     end
+  end
+
+  defp info(msg) when is_binary(msg) do
+    IO.puts "\e[1;32m[ info ]\e[0m  " <> msg
   end
 end
