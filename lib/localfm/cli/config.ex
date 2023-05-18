@@ -45,10 +45,15 @@ defmodule LocalFM.CLI.Config do
   end
 
   defp put_limit(config, nil), do: config
-  defp put_limit(config, n), do: Map.put(config, :limit, n)
+  defp put_limit(config, n) when n > 0, do: Map.put(config, :limit, n)
+  defp put_limit(_config, n) do
+    raise ArgumentError, "invalid limit: #{n}; must be a positive integer"
+  end
 
   defp put_output(config, nil), do: config
   defp put_output(config, "html"), do: Map.put(config, :output, :html)
   defp put_output(config, "text"), do: Map.put(config, :output, :text)
-  defp put_output(_config, type), do: raise ArgumentError, "unknown output type: \"#{type}\""
+  defp put_output(_config, type) do
+    raise ArgumentError, "unknown output type: \"#{type}\""
+  end
 end
