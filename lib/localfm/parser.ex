@@ -1,4 +1,12 @@
 defmodule LocalFM.Parser do
+  alias LocalFM.Entry
+
+  @typedoc ~S"""
+  Raw history data. Multiline text containing some HTML markup, one `<li>` tag per track.
+  """
+  @type raw_history_data :: String.t()
+
+  @spec parse(raw_history_data) :: {:ok, [Entry.t()]}
   def parse(data) do
     {:ok, stream} = StringIO.open(data)
 
@@ -6,7 +14,7 @@ defmodule LocalFM.Parser do
       IO.binstream(stream, :line)
       |> Stream.map(&convert_line/1)
       |> Stream.reject(&is_nil/1)
-      |> Stream.map(&LocalFM.Entry.new/1)
+      |> Stream.map(&Entry.new/1)
       |> Enum.to_list()
 
     {:ok, entries}
