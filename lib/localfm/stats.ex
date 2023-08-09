@@ -1,6 +1,25 @@
 defmodule LocalFM.Stats do
+  @type t :: %__MODULE__{
+          top_albums: [top_album_stat],
+          top_artists: [top_artist_stat],
+          top_tracks: [top_track_stat],
+          last_played: [last_played_track],
+          date_range: LocalFM.DateRange.option()
+        }
+
+  @typep artist_name :: String.t()
+  @typep album_title :: String.t()
+  @typep track_title :: String.t()
+  @typep played_count :: pos_integer
+
+  @typep top_album_stat :: {{artist_name, album_title}, played_count}
+  @typep top_artist_stat :: {artist_name, played_count}
+  @typep top_track_stat :: {{artist_name, album_title, track_title}, played_count}
+  @typep last_played_track :: {{artist_name, album_title, track_title}, NativeDateTime.t()}
+
   defstruct [:top_albums, :top_artists, :top_tracks, :last_played, :date_range]
 
+  @spec generate([LocalFM.Entry.t()], LocalFM.CLI.Config.t()) :: {:ok, t}
   def generate(data, opts) do
     range = LocalFM.DateRange.choose(opts.date_range)
 
@@ -10,7 +29,7 @@ defmodule LocalFM.Stats do
       |> put_top_albums(data, range, opts.limit)
       |> put_top_artists(data, range, opts.limit)
       |> put_top_tracks(data, range, opts.limit)
-      |> put_last_played(data, opts.limit)
+      |> put_last_played(data, range, opts.limit)
 
     {:ok, stats}
   end
@@ -22,7 +41,7 @@ defmodule LocalFM.Stats do
   end
 
   defp put_top_artists(stats, data, range, limit) do
-    top_artists = process_data(data, range, limit, fn t -> song_artist(t) end)
+    top_artists = process_data(data, range, limit, fn t -> album_artist(t) end)
 
     Map.put(stats, :top_artists, top_artists)
   end
@@ -33,10 +52,11 @@ defmodule LocalFM.Stats do
     Map.put(stats, :top_tracks, top_tracks)
   end
 
-  defp put_last_played(stats, data, limit) do
+  defp put_last_played(stats, data, range, limit) do
     last_played_tracks =
       data
       |> Enum.reverse()
+      |> Enum.filter(range)
       |> Enum.take(limit)
       |> Enum.map(fn t -> {{t.artist, t.album, t.track}, t.timestamp} end)
 
@@ -64,9 +84,9 @@ defmodule LocalFM.Stats do
   end
 
   @comp_regexes [
-    ~r/latenightales/iu,
+    ~r/latenighttales/iu,
     ~r/pop ambient/iu,
-    ~r/cafe del mar/iu,
+    ~r/café del mar/iu,
     ~r/hotel costes/iu
   ]
 
