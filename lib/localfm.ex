@@ -1,5 +1,5 @@
 defmodule LocalFM do
-  @opts %{limit: 10, date_range: 30}
+  @opts %LocalFM.CLI.Config{limit: 10, date_range: :last_30_days}
 
   def run do
     {:ok, data} = retrieve_data()
