@@ -15,7 +15,7 @@ defmodule LocalFM.Stats do
   @typep top_album_stat :: {{artist_name, album_title}, played_count}
   @typep top_artist_stat :: {artist_name, played_count}
   @typep top_track_stat :: {{artist_name, album_title, track_title}, played_count}
-  @typep last_played_track :: {{artist_name, album_title, track_title}, NativeDateTime.t()}
+  @typep last_played_track :: {{artist_name, album_title, track_title}, NaiveDateTime.t()}
 
   defstruct [:top_albums, :top_artists, :top_tracks, :last_played, :date_range]
 
