@@ -3,8 +3,25 @@
 Last.fm analog for capturing and displaying playback history statistics from my
 local MoodeAudio setup.
 
-## How It Works
+## Usage
 
-Script copies playback log from MoodeAudio, converts it to CSV, calculate simple
-statistics (top 10 artists, albums and track for last 30 days) and generates
-simple static HTML file.
+1. Build:
+
+```
+mix deps.get
+mix deps.compile
+mix compile
+mix escript.build
+```
+
+2. Run:
+
+```
+MOODE_CREDS="pi:password" ./localfm -n 20 -d 90
+```
+
+or without building escript:
+
+```
+MOODE_CREDS="pi:password" mix run -e "LocalFM.CLI.main([\"--all-time\"])"
+```

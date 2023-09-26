@@ -3,13 +3,20 @@ defmodule LocalFM.Downloader do
   TODO: Move URL and creds to dotfiles
   """
 
-  @curl_bin "/opt/homebrew/opt/curl/bin/curl"
-  @creds "pi:moodeaudio"
-  @source_url "sftp://moode.local/var/log/moode_playhistory.log"
-
   def retrieve_data do
-    System.cmd(@curl_bin, ["--insecure", "--silent", "--user", @creds, @source_url])
-    |> case do
+    config = Application.fetch_env!(:localfm, __MODULE__)
+
+    curl = config[:curl_bin_path]
+
+    opts = [
+      "--insecure",
+      "--silent",
+      "--user",
+      config[:creds],
+      config[:source_url]
+    ]
+
+    case System.cmd(curl, opts) do
       {data, 0} -> {:ok, data}
       {_, error_code} -> {:error, "Something went wrong (#{error_code})"}
     end
