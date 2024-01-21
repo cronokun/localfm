@@ -25,4 +25,7 @@ localfm-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
-localfm
+# Ignore escrip executable
+/localfm
+
+TODO.md
