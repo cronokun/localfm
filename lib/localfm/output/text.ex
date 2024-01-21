@@ -3,10 +3,12 @@ defmodule LocalFM.Output.Text do
   @count_padding 6
   @total_padding 99
 
-  def print(%LocalFM.Stats{} = stats) do
+  def print(%LocalFM.Stats{} = stats), do: stats |> render() |> IO.puts()
+
+  def render(%LocalFM.Stats{} = stats) do
     date_range = date_range_to_s(stats.date_range)
 
-    IO.puts([
+    IO.iodata_to_binary([
       "\n",
       format_section_header("Top Artists", date_range),
       format_list(stats.top_artists, &format_artist/1),
@@ -26,7 +28,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp format_section_header(header, date_range) do
-    pad_length = @total_padding - String.length(header) - String.length(date_range) - 2
+    pad_length = @total_padding - printable_length(header) - printable_length(date_range) - 2
     padding = String.duplicate(" ", pad_length)
     section_header = (" " <> header <> " ") |> reverse_str()
 
@@ -38,7 +40,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp format_artist({{artist, count}, index}) do
-    length = String.length(artist)
+    length = printable_length(artist)
 
     format_list_item(
       {artist, length},
@@ -48,7 +50,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp format_album({{{artist, album}, count}, index}) do
-    length = String.length(artist) + String.length(album)  + 3
+    length = printable_length(artist) + printable_length(album) + 3
 
     format_list_item(
       {"#{album} — #{bold_str(artist)}", length},
@@ -58,7 +60,7 @@ defmodule LocalFM.Output.Text do
   end
 
   def format_track({{{artist, _album, track}, count}, index}) do
-    length = String.length(artist) + String.length(track) + 3
+    length = printable_length(artist) + printable_length(track) + 3
 
     format_list_item(
       {"#{track} — #{bold_str(artist)}", length},
@@ -70,7 +72,10 @@ defmodule LocalFM.Output.Text do
   def format_track_with_timestamp({{{artist, _album, track}, timestamp}, _index}) do
     str = "• #{track} — #{bold_str(artist)}"
     timestamp = Calendar.strftime(timestamp, "%d %b %Y, %H:%M")
-    padding_length = @total_padding - String.length(track) - String.length(artist) - String.length(timestamp) - 5
+
+    padding_length =
+      @total_padding - printable_length(track) - printable_length(artist) -
+        printable_length(timestamp) - 5
 
     [
       str,
@@ -81,7 +86,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp format_list_item({str, str_length}, index, count) do
-    length = str_length + String.length(to_string(count))
+    length = str_length + printable_length(to_string(count))
 
     [
       formated_index(index),
@@ -93,7 +98,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp formated_index(index) do
-    idx_str = (index |> to_string() |> String.pad_leading(2))
+    idx_str = index |> to_string() |> String.pad_leading(2)
     idx_str <> ". "
   end
 
@@ -119,4 +124,16 @@ defmodule LocalFM.Output.Text do
   defp italic_str(str) when is_binary(str), do: "\e[3m" <> str <> "\e[0m"
   defp underline_str(str) when is_binary(str), do: "\e[4m" <> str <> "\e[0m"
   defp reverse_str(str) when is_binary(str), do: "\e[1;7m" <> str <> "\e[0m"
+
+  defp printable_length(str) do
+    str
+    |> String.codepoints()
+    |> Enum.reduce(0, fn char, total ->
+      case byte_size(char) do
+        1 -> total + 1
+        2 -> total + 1
+        3 -> total + 2
+      end
+    end)
+  end
 end

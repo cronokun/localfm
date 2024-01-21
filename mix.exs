@@ -4,8 +4,8 @@ defmodule LocalFM.MixProject do
   def project do
     [
       app: :localfm,
-      version: "0.1.0",
-      elixir: "~> 1.14",
+      version: "0.1.1",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       escript: [main_module: LocalFM.CLI],
       deps: deps()
