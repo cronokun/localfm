@@ -1,23 +1,20 @@
 defmodule LocalFM.DateRange do
-  @type option ::
-          :all_time
-          | :last_7_days
-          | :last_30_days
-          | :last_90_days
-          | :last_180_days
-          | :last_365_days
+  @moduledoc """
+  This module provides different types of filtering by date range.
+  """
 
-  @spec choose(option) :: (LocalFM.Entry.t() -> boolean())
-  def choose(:all_time), do: fn _entry -> true end
-  def choose(:last_7_days), do: last_n_days_fun(7)
-  def choose(:last_30_days), do: last_n_days_fun(30)
-  def choose(:last_90_days), do: last_n_days_fun(90)
-  def choose(:last_180_days), do: last_n_days_fun(180)
-  def choose(:last_365_days), do: last_n_days_fun(365)
+  @type option :: {:all_time | :by_year | :last_n_days, pos_integer | nil}
 
-  defp last_n_days_fun(n) do
+  @spec choose(option()) :: (LocalFM.Entry.t() -> boolean())
+  def choose({:all_time, nil}), do: fn _entry -> true end
+
+  def choose({:by_year, year}) do
+    fn entry -> entry.timestamp.year == year end
+  end
+
+  def choose({:last_n_days, days}) do
     now = Date.utc_today()
-    start = Date.add(now, -n)
+    start = Date.add(now, -days)
     range = Date.range(start, now)
 
     fn entry -> NaiveDateTime.to_date(entry.timestamp) in range end

@@ -51,7 +51,7 @@ defmodule LocalFM.Output.TextTest do
       top_artists: [],
       top_tracks: [],
       last_played: [],
-      date_range: :all_time
+      date_range: {:all_time, nil}
     }
   end
 

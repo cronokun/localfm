@@ -112,12 +112,9 @@ defmodule LocalFM.Output.Text do
   defp play_or_plays(1), do: "1 play"
   defp play_or_plays(n), do: "#{n} plays"
 
-  defp date_range_to_s(:all_time), do: "All time"
-  defp date_range_to_s(:last_7_days), do: "Last 7 days"
-  defp date_range_to_s(:last_30_days), do: "Last 30 days"
-  defp date_range_to_s(:last_90_days), do: "Last 90 days"
-  defp date_range_to_s(:last_180_days), do: "Last 180 days"
-  defp date_range_to_s(:last_365_days), do: "Last 365 days"
+  defp date_range_to_s({:all_time, _}), do: "All time"
+  defp date_range_to_s({:by_year, year}), do: "Year #{year}"
+  defp date_range_to_s({:last_n_days, n}), do: "Last #{n} days"
 
   defp bold_str(str) when is_binary(str), do: "\e[1m" <> str <> "\e[0m"
   defp italic_str(str) when is_binary(str), do: "\e[3m" <> str <> "\e[0m"

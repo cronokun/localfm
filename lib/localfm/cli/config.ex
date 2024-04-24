@@ -5,17 +5,18 @@ defmodule LocalFM.CLI.Config do
 
   @type t :: %__MODULE__{
           date_range: LocalFM.DateRange.option(),
+          export_path: String.t() | nil,
           limit: pos_integer,
           mode: :process | :export,
           output: :html | :text,
-          source_path: binary | nil
+          source_path: String.t() | nil
         }
 
-  defstruct mode: :process,
-            limit: 10,
-            date_range: :last_30_days,
-            output: :text,
+  defstruct date_range: {:last_n_days, 30},
             export_path: nil,
+            limit: 10,
+            mode: :process,
+            output: :text,
             source_path: nil
 
   def parse(args) do
@@ -24,7 +25,7 @@ defmodule LocalFM.CLI.Config do
     %__MODULE__{}
     |> put_mode(export: opts[:export])
     |> put_source_path(source: opts[:source])
-    |> put_date_range(opts[:all_time] || opts[:last_days])
+    |> put_date_range(opts)
     |> put_limit(opts[:limit])
     |> put_output(opts[:output])
   end
@@ -38,15 +39,17 @@ defmodule LocalFM.CLI.Config do
         a: :all_time,
         o: :output,
         d: :last_days,
-        s: :source
+        s: :source,
+        y: :year
       ],
       strict: [
-        limit: :integer,
-        last_days: :integer,
         all_time: :boolean,
-        output: :string,
         export: :string,
-        source: :string
+        last_days: :integer,
+        limit: :integer,
+        output: :string,
+        source: :string,
+        year: :integer
       ]
     )
   end
@@ -61,17 +64,13 @@ defmodule LocalFM.CLI.Config do
 
   defp put_source_path(config, _), do: config
 
-  defp put_date_range(config, nil), do: config
-  defp put_date_range(config, true), do: %{config | date_range: :all_time}
-  defp put_date_range(config, 7), do: %{config | date_range: :last_7_days}
-  defp put_date_range(config, 30), do: %{config | date_range: :last_30_days}
-  defp put_date_range(config, 90), do: %{config | date_range: :last_90_days}
-  defp put_date_range(config, 180), do: %{config | date_range: :last_180_days}
-  defp put_date_range(config, 365), do: %{config | date_range: :last_365_days}
-
-  defp put_date_range(_config, n) do
-    raise ArgumentError,
-          "unsupporten range \"--last-days #{n}\"; choose one from 7, 30, 90, 180, 365"
+  defp put_date_range(config, opts) do
+    cond do
+      opts[:all_time] -> %{config | date_range: {:all_time, nil}}
+      opts[:last_days] -> %{config | date_range: {:last_n_days, opts[:last_days]}}
+      opts[:year] -> %{config | date_range: {:by_year, opts[:year]}}
+      true -> config
+    end
   end
 
   defp put_limit(config, nil), do: config

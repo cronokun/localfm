@@ -4,7 +4,7 @@ defmodule LocalFM.StatsTest do
   alias LocalFM.Entry
   alias LocalFM.Stats
 
-  @default_opts %{limit: 10, date_range: :all_time}
+  @default_opts %{limit: 10, date_range: {:all_time, nil}}
 
   @data [
     %Entry{
@@ -115,7 +115,7 @@ defmodule LocalFM.StatsTest do
                 {{"Nicolas Jaar", "A Time For Us / Mi Mujer", "Mi Mujer"},
                  ~N[2023-08-08 12:07:05]}
               ],
-              date_range: :all_time
+              date_range: {:all_time, nil}
             }} = Stats.generate(@data, @default_opts)
   end
 
@@ -277,7 +277,7 @@ defmodule LocalFM.StatsTest do
                 {{"Moderat", "MORE D4TA", "Easy Prey"}, ~N[2023-08-09 15:05:00]},
                 {{"Moderat", "MORE D4TA", "Fast Land"}, ~N[2023-08-09 15:00:00]}
               ],
-              date_range: :all_time
+              date_range: {:all_time, nil}
             }} = Stats.generate(@data, @default_opts)
   end
 
@@ -393,7 +393,7 @@ defmodule LocalFM.StatsTest do
                 {{"Der", "D1", "untitled"}, ~N[2023-08-09 19:00:09]},
                 {{"Car", "C1", "untitled"}, ~N[2023-08-09 19:00:08]}
               ]
-            }} = Stats.generate(@data, %{limit: 3, date_range: :all_time})
+            }} = Stats.generate(@data, %{limit: 3, date_range: {:all_time, nil}})
   end
 
   test ".generate/2 filters artists/albums/tracks by date range" do
@@ -436,6 +436,6 @@ defmodule LocalFM.StatsTest do
                 {{"Car", "C1", "untitled"}, ^this_month},
                 {{"Car", "C1", "untitled"}, ^this_month}
               ]
-            }} = Stats.generate(data, %{limit: 10, date_range: :last_30_days})
+            }} = Stats.generate(data, %{limit: 10, date_range: {:last_n_days, 30}})
   end
 end

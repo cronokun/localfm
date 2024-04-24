@@ -94,5 +94,5 @@ defmodule LocalFM.Stats do
     Enum.any?(@comp_regexes, fn reg -> String.match?(album, reg) end)
   end
 
-  defp put_date_range(stats, date_range), do: Map.put(stats, :date_range, date_range)
+  defp put_date_range(stats, range), do: %{stats | date_range: range}
 end

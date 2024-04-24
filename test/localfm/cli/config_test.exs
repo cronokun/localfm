@@ -5,7 +5,7 @@ defmodule LocalFM.CLI.ConfigTest do
 
   test "default options" do
     assert Config.parse([]) == %Config{
-             date_range: :last_30_days,
+             date_range: {:last_n_days, 30},
              limit: 10,
              output: :text,
              mode: :process,
@@ -23,18 +23,10 @@ defmodule LocalFM.CLI.ConfigTest do
   end
 
   test "date range options" do
-    assert %Config{date_range: :last_7_days} = Config.parse(["--last-days", "7"])
-    assert %Config{date_range: :last_30_days} = Config.parse(["--last-days", "30"])
-    assert %Config{date_range: :last_90_days} = Config.parse(["--last-days", "90"])
-    assert %Config{date_range: :last_180_days} = Config.parse(["--last-days", "180"])
-    assert %Config{date_range: :last_365_days} = Config.parse(["--last-days", "365"])
-    assert %Config{date_range: :all_time} = Config.parse(["--all-time"])
-
-    assert_raise ArgumentError,
-                 "unsupporten range \"--last-days 999\"; choose one from 7, 30, 90, 180, 365",
-                 fn ->
-                   Config.parse(["--last-days", "999"])
-                 end
+    assert %Config{date_range: {:all_time, nil}} = Config.parse(["--all-time"])
+    assert %Config{date_range: {:last_n_days, 7}} = Config.parse(["--last-days", "7"])
+    assert %Config{date_range: {:last_n_days, 365}} = Config.parse(["--last-days", "365"])
+    assert %Config{date_range: {:by_year, 2010}} = Config.parse(["--year", "2010"])
   end
 
   test "output option" do
@@ -58,7 +50,7 @@ defmodule LocalFM.CLI.ConfigTest do
 
   test "aliases" do
     assert %Config{
-             date_range: :last_180_days,
+             date_range: {:last_n_days, 180},
              limit: 5,
              output: :html,
              source_path: "data.csv"
