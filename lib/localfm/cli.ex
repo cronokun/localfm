@@ -15,43 +15,43 @@ defmodule LocalFM.CLI do
   end
 
   defp do_process(opts) do
-    IO.puts("Processing stats")
+    IO.puts("\nProcessing statistics:\n")
 
     {:ok, entries} =
       case opts.source_path do
         path when is_binary(path) ->
-          info("Reading from source file")
+          info("Reading data from source file...")
           LocalFM.CSV.import(path)
 
         _ ->
-          info("Retrieving data from MoodeAudio")
+          info("Retrieving data from MoodeAudio...")
           {:ok, data} = LocalFM.retrieve_data()
 
-          info("Parsing data")
+          info("Parsing data...")
           LocalFM.parse_data(data)
       end
 
-    info("Calculating statistics")
+    info("Calculating statistics...")
     {:ok, stats} = LocalFM.generate_stats(entries, opts)
 
     info("Done!")
 
     case opts.output do
       :text -> LocalFM.Output.Text.print(stats)
-      _ -> raise "Output not yet implemented..."
+      invalid -> raise "Output #{inspect(invalid)} not yet implemented"
     end
   end
 
   defp do_export(path) do
-    IO.puts("Exporting CSV data")
+    IO.puts("\nExporting CSV data:\n")
 
-    info("Retrieving data from MoodeAudio")
+    info("Retrieving data from MoodeAudio...")
     {:ok, data} = LocalFM.retrieve_data()
 
-    info("Parsing data")
+    info("Parsing data...")
     {:ok, entries} = LocalFM.parse_data(data)
 
-    info("Exporting CSV")
+    info("Exporting CSV...")
     :ok = LocalFM.CSV.export(entries, path)
 
     info("Done!")

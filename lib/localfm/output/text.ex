@@ -9,7 +9,6 @@ defmodule LocalFM.Output.Text do
     date_range = date_range_to_s(stats.date_range)
 
     IO.iodata_to_binary([
-      "\n",
       format_section_header("Top Artists", date_range),
       format_list(stats.top_artists, &format_artist/1),
       format_section_header("Top Albums", date_range),
