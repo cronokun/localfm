@@ -8,17 +8,25 @@ defmodule LocalFM.CLI do
   def main(args) do
     opts = Config.parse(args)
 
-    IO.puts("") # new line
-    info "Retrieving data from MoodeAudio"
+    case opts.mode do
+      :process -> do_process(opts)
+      :export -> do_export(opts.export_path)
+    end
+  end
+
+  defp do_process(opts) do
+    IO.puts("Processing stats")
+
+    info("Retrieving data from MoodeAudio")
     {:ok, data} = LocalFM.retrieve_data()
 
-    info "Parsing data"
+    info("Parsing data")
     {:ok, entries} = LocalFM.parse_data(data)
 
-    info "Calculating statistics"
+    info("Calculating statistics")
     {:ok, stats} = LocalFM.generate_stats(entries, opts)
 
-    info "Done!"
+    info("Done!")
 
     case opts.output do
       :text -> LocalFM.Output.Text.print(stats)
@@ -26,7 +34,22 @@ defmodule LocalFM.CLI do
     end
   end
 
+  defp do_export(path) do
+    IO.puts("Exporting CSV data")
+
+    info("Retrieving data from MoodeAudio")
+    {:ok, data} = LocalFM.retrieve_data()
+
+    info("Parsing data")
+    {:ok, entries} = LocalFM.parse_data(data)
+
+    info("Exporting CSV")
+    :ok = LocalFM.CSV.export(entries, path)
+
+    info("Done!")
+  end
+
   defp info(msg) when is_binary(msg) do
-    IO.puts "\e[1;32m[ info ]\e[0m  " <> msg
+    IO.puts("\e[1;32m[ info ]\e[0m  #{msg}")
   end
 end

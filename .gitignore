@@ -28,4 +28,6 @@ localfm-*.tar
 # Ignore escrip executable
 /localfm
 
+/priv/*.csv
+
 TODO.md
