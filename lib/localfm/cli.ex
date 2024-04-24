@@ -17,11 +17,19 @@ defmodule LocalFM.CLI do
   defp do_process(opts) do
     IO.puts("Processing stats")
 
-    info("Retrieving data from MoodeAudio")
-    {:ok, data} = LocalFM.retrieve_data()
+    {:ok, entries} =
+      case opts.source_path do
+        path when is_binary(path) ->
+          info("Reading from source file")
+          LocalFM.CSV.import(path)
 
-    info("Parsing data")
-    {:ok, entries} = LocalFM.parse_data(data)
+        _ ->
+          info("Retrieving data from MoodeAudio")
+          {:ok, data} = LocalFM.retrieve_data()
+
+          info("Parsing data")
+          LocalFM.parse_data(data)
+      end
 
     info("Calculating statistics")
     {:ok, stats} = LocalFM.generate_stats(entries, opts)

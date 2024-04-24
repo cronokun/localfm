@@ -4,19 +4,26 @@ defmodule LocalFM.CLI.Config do
   """
 
   @type t :: %__MODULE__{
-          mode: :process | :export,
-          limit: pos_integer,
           date_range: LocalFM.DateRange.option(),
-          output: :html | :text
+          limit: pos_integer,
+          mode: :process | :export,
+          output: :html | :text,
+          source_path: binary | nil
         }
 
-  defstruct mode: :process, limit: 10, date_range: :last_30_days, output: :text, export_path: nil
+  defstruct mode: :process,
+            limit: 10,
+            date_range: :last_30_days,
+            output: :text,
+            export_path: nil,
+            source_path: nil
 
   def parse(args) do
     {opts, _, _} = parse_args(args)
 
     %__MODULE__{}
     |> put_mode(export: opts[:export])
+    |> put_source_path(source: opts[:source])
     |> put_date_range(opts[:all_time] || opts[:last_days])
     |> put_limit(opts[:limit])
     |> put_output(opts[:output])
@@ -30,14 +37,16 @@ defmodule LocalFM.CLI.Config do
         n: :limit,
         a: :all_time,
         o: :output,
-        d: :last_days
+        d: :last_days,
+        s: :source
       ],
       strict: [
         limit: :integer,
         last_days: :integer,
         all_time: :boolean,
         output: :string,
-        export: :string
+        export: :string,
+        source: :string
       ]
     )
   end
@@ -46,6 +55,11 @@ defmodule LocalFM.CLI.Config do
     do: %{config | mode: :export, export_path: path}
 
   defp put_mode(config, _), do: config
+
+  defp put_source_path(config, source: path) when is_binary(path),
+    do: %{config | source_path: path}
+
+  defp put_source_path(config, _), do: config
 
   defp put_date_range(config, nil), do: config
   defp put_date_range(config, true), do: %{config | date_range: :all_time}

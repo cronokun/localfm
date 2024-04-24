@@ -20,12 +20,11 @@ defmodule LocalFM.Parser do
     {:ok, entries}
   end
 
-  @regex ~r[(?<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}).+</a>(?<track>.+)</div><span>(?<album>.+)</span></li>]
+  @regex ~r[(?<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}).+</a>(?<track>.+)</div><span>(?<artist>.+) - (?<album>.+)</span></li>]U
 
   defp convert_line("<li" <> _rest = line) do
-    captures = Regex.named_captures(@regex, line)
-    [artist, album] = String.split(captures["album"], " - ", parts: 2)
-    Map.merge(captures, %{"artist" => artist, "album" => album})
+    Regex.named_captures(@regex, line, capture: :all_but_first)
+    |> Map.update("timestamp", nil, &(&1 <> ":00"))
   end
 
   defp convert_line(_other), do: nil

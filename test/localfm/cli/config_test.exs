@@ -51,11 +51,17 @@ defmodule LocalFM.CLI.ConfigTest do
              Config.parse(["--export", "/foo/bar"])
   end
 
+  test "source option" do
+    assert %Config{source_path: "/foo/bar/data.csv"} =
+             Config.parse(["--source", "/foo/bar/data.csv"])
+  end
+
   test "aliases" do
     assert %Config{
              date_range: :last_180_days,
              limit: 5,
-             output: :html
-           } = Config.parse(~w[-n 5 -d 180 -o html])
+             output: :html,
+             source_path: "data.csv"
+           } = Config.parse(~w[-s data.csv -n 5 -d 180 -o html])
   end
 end
