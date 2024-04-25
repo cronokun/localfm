@@ -8,7 +8,9 @@ defmodule LocalFM.CSV do
   def export(data, path) do
     output = File.stream!(path, [:write, :utf8])
 
+    # Keep more recent data on top
     data
+    |> Enum.reverse()
     |> Stream.map(&[&1.artist, &1.album, &1.track, &1.timestamp])
     |> CSV.encode()
     |> Stream.into(output)
