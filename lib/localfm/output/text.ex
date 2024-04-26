@@ -9,6 +9,7 @@ defmodule LocalFM.Output.Text do
     date_range = date_range_to_s(stats.date_range)
 
     IO.iodata_to_binary([
+      totals_section(stats),
       format_section_header("Top Artists", date_range),
       format_list(stats.top_artists, &format_artist/1),
       format_section_header("Top Albums", date_range),
@@ -18,6 +19,15 @@ defmodule LocalFM.Output.Text do
       format_section_header("Recently Played"),
       format_list(stats.last_played, &format_track_with_timestamp/1)
     ])
+  end
+
+  defp totals_section(stats) do
+    [
+      "\n",
+      "Total plays: #{stats.totals.plays}\n",
+      "Total artists: #{stats.totals.artists}\n",
+      "Total albums: #{stats.totals.albums}\n"
+    ]
   end
 
   defp format_section_header(header) do

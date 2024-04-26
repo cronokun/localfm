@@ -438,4 +438,25 @@ defmodule LocalFM.StatsTest do
               ]
             }} = Stats.generate(data, %{limit: 10, date_range: {:last_n_days, 30}})
   end
+
+  test ".generate/2 generates total stats" do
+    data = [
+      %Entry{artist: "Foo", album: "AAA", track: "A1", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Foo", album: "AAA", track: "A2", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Foo", album: "AAA", track: "A3", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Foo", album: "BBB", track: "B1", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Foo", album: "BBB", track: "B2", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Foo", album: "BBB", track: "B3", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Car", album: "CCC", track: "C1", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Car", album: "CCC", track: "C2", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Car", album: "CCC", track: "C3", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Bar", album: "DDD", track: "D1", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Bar", album: "DDD", track: "D2", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Bar", album: "DDD", track: "D3", timestamp: ~N[2024-04-25 00:00:00]},
+      %Entry{artist: "Bar", album: "DDD", track: "D4", timestamp: ~N[2024-04-25 00:00:00]}
+    ]
+
+    assert {:ok, %Stats{totals: %{plays: 13, artists: 3, albums: 4}}} =
+             Stats.generate(data, @default_opts)
+  end
 end
