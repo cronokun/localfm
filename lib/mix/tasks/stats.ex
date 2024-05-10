@@ -1,20 +1,15 @@
-defmodule LocalFM.CLI do
-  @moduledoc """
-  Main CLI app. Parse command line arguments and pass to core functions.
-  """
+defmodule Mix.Tasks.Stats do
+  @moduledoc "Generate and show play history stats"
+  @shortdoc "Show play stats"
 
-  alias LocalFM.CLI.Config
+  use Mix.Task
 
-  def main(args) do
-    opts = Config.parse(args)
+  @requirements ["app.config"]
 
-    case opts.mode do
-      :process -> do_process(opts)
-      :export -> do_export(opts.export_path)
-    end
-  end
+  @impl Mix.Task
+  def run(args) do
+    opts = LocalFM.Options.parse(args)
 
-  defp do_process(opts) do
     IO.puts("\nProcessing statistics:\n")
 
     {:ok, entries} =
@@ -40,21 +35,6 @@ defmodule LocalFM.CLI do
       :text -> LocalFM.Output.Text.print(stats)
       invalid -> raise "Output #{inspect(invalid)} not yet implemented"
     end
-  end
-
-  defp do_export(path) do
-    IO.puts("\nExporting CSV data:\n")
-
-    info("Retrieving data from MoodeAudio...")
-    {:ok, data} = LocalFM.retrieve_data()
-
-    info("Parsing data...")
-    {:ok, entries} = LocalFM.parse_data(data)
-
-    info("Exporting CSV...")
-    :ok = LocalFM.CSV.export(entries, path)
-
-    info("Done!")
   end
 
   defp info(msg) when is_binary(msg) do

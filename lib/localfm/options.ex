@@ -1,21 +1,15 @@
-defmodule LocalFM.CLI.Config do
-  @moduledoc """
-  Parse command line arguments.
-  """
+defmodule LocalFM.Options do
+  @moduledoc "Parse command line arguments for stats options"
 
   @type t :: %__MODULE__{
           date_range: LocalFM.DateRange.option(),
-          export_path: String.t() | nil,
           limit: pos_integer,
-          mode: :process | :export,
           output: :html | :text,
           source_path: String.t() | nil
         }
 
   defstruct date_range: {:last_n_days, 30},
-            export_path: nil,
             limit: 10,
-            mode: :process,
             output: :text,
             source_path: nil
 
@@ -23,7 +17,6 @@ defmodule LocalFM.CLI.Config do
     {opts, _, _} = parse_args(args)
 
     %__MODULE__{}
-    |> put_mode(export: opts[:export])
     |> put_source_path(source: opts[:source])
     |> put_date_range(opts)
     |> put_limit(opts[:limit])
@@ -44,7 +37,6 @@ defmodule LocalFM.CLI.Config do
       ],
       strict: [
         all_time: :boolean,
-        export: :string,
         last_days: :integer,
         limit: :integer,
         output: :string,
@@ -53,11 +45,6 @@ defmodule LocalFM.CLI.Config do
       ]
     )
   end
-
-  defp put_mode(config, export: path) when is_binary(path),
-    do: %{config | mode: :export, export_path: path}
-
-  defp put_mode(config, _), do: config
 
   defp put_source_path(config, source: path) when is_binary(path),
     do: %{config | source_path: path}

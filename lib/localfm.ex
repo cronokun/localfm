@@ -1,5 +1,5 @@
 defmodule LocalFM do
-  @opts %LocalFM.CLI.Config{}
+  @opts %LocalFM.Options{}
 
   def run do
     {:ok, data} = retrieve_data()

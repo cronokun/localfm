@@ -7,7 +7,6 @@ defmodule LocalFM.MixProject do
       version: "0.1.1",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
-      escript: [main_module: LocalFM.CLI],
       deps: deps()
     ]
   end
