@@ -22,7 +22,8 @@ defmodule LocalFM.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
-      {:csv, "~> 3.2"}
+      {:csv, "~> 3.2"},
+      {:sftp_client, "~> 2.0"}
     ]
   end
 end

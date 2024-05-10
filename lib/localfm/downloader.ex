@@ -4,21 +4,11 @@ defmodule LocalFM.Downloader do
   """
 
   def retrieve_data do
-    config = Application.fetch_env!(:localfm, __MODULE__)
-    curl = config[:curl_bin_path]
+    opts = Application.fetch_env!(:localfm, __MODULE__)
+    [user, pass] = String.split(opts[:creds], ":")
 
-    opts =
-      [
-        "--insecure",
-        "--silent",
-        "--user",
-        config[:creds],
-        config[:source_url]
-      ]
-
-    case System.cmd(curl, opts) do
-      {data, 0} -> {:ok, data}
-      {_, error_code} -> {:error, "Something went wrong (#{error_code})"}
-    end
+    SFTPClient.connect!([host: opts[:host], user: user, password: pass], fn conn ->
+      SFTPClient.read_file(conn, opts[:source_path])
+    end)
   end
 end

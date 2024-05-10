@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Stats do
 
   use Mix.Task
 
-  @requirements ["app.config"]
+  @requirements ["app.config", "app.start"]
 
   @impl Mix.Task
   def run(args) do
