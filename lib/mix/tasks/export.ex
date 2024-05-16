@@ -4,14 +4,14 @@ defmodule Mix.Tasks.Export do
 
   use Mix.Task
 
-  @requirements ["app.config"]
+  @requirements ["app.config", "app.start"]
 
   @impl Mix.Task
   def run([path | _args]) when is_binary(path) do
     IO.puts("\nExporting CSV data:\n")
 
     info("Retrieving data from MoodeAudio...")
-    {:ok, data} = LocalFM.retrieve_data()
+    {:ok, data} = LocalFM.fetch_data!()
 
     info("Parsing data...")
     {:ok, entries} = LocalFM.parse_data(data)

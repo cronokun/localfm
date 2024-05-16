@@ -20,7 +20,7 @@ defmodule Mix.Tasks.Stats do
 
         _ ->
           info("Retrieving data from MoodeAudio...")
-          {:ok, data} = LocalFM.retrieve_data()
+          {:ok, data} = LocalFM.fetch_data!()
 
           info("Parsing data...")
           LocalFM.parse_data(data)
