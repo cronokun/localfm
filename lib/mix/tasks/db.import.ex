@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Db.Import do
     {:ok, entries} = LocalFM.CSV.import(path)
 
     info("Importing to database...")
-    {n, _} = LocalFM.History.import(entries)
+    {:ok, n} = LocalFM.History.import(entries)
 
     info("#{n} new entries imported")
     info("Done!")

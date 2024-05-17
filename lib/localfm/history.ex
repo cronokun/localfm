@@ -8,8 +8,16 @@ defmodule LocalFM.History do
   alias LocalFM.Repo
 
   def import(entries) do
-    data = Enum.map(entries, &Map.from_struct/1)
-    Repo.insert_all(Track, data, on_conflict: :nothing)
+    n =
+      entries
+      |> Stream.map(&Map.from_struct/1)
+      |> Stream.chunk_every(1_000)
+      |> Enum.reduce(0, fn batch, acc ->
+        {n, _} = Repo.insert_all(Track, batch, on_conflict: :nothing)
+        acc + n
+      end)
+
+    {:ok, n}
   end
 
   def insert(entry) when is_struct(entry, Entry) do
