@@ -4,6 +4,8 @@ defmodule Mix.Tasks.Stats do
 
   use Mix.Task
 
+  import LocalFM.Helpers, only: [info: 1]
+
   @requirements ["app.config", "app.start"]
 
   @impl Mix.Task
@@ -35,9 +37,5 @@ defmodule Mix.Tasks.Stats do
       :text -> LocalFM.Output.Text.print(stats)
       invalid -> raise "Output #{inspect(invalid)} not yet implemented"
     end
-  end
-
-  defp info(msg) when is_binary(msg) do
-    IO.puts("\e[1;32m[ info ]\e[0m  #{msg}")
   end
 end

@@ -4,6 +4,8 @@ defmodule Mix.Tasks.Export do
 
   use Mix.Task
 
+  import LocalFM.Helpers, only: [info: 1]
+
   @requirements ["app.config", "app.start"]
 
   @impl Mix.Task
@@ -20,9 +22,5 @@ defmodule Mix.Tasks.Export do
     :ok = LocalFM.CSV.export(entries, path)
 
     info("Done!")
-  end
-
-  defp info(msg) when is_binary(msg) do
-    IO.puts("\e[1;32m[ info ]\e[0m  #{msg}")
   end
 end
