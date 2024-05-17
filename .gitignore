@@ -30,7 +30,6 @@ localfm-*.tar
 
 # Local data
 /priv/*.csv
-/priv/*.db
-/priv/*.db-*
+/priv/db/*
 
 TODO.md
