@@ -25,7 +25,7 @@ defmodule LocalFM.History.Stats do
 
   defp top_albums(query, opts) do
     query
-    |> select([t], {{t.album_artist, t.album}, count(t.id)})
+    |> select([t], {{t.album_artist, t.album}, fragment("count(?) as plays", t.id)})
     |> group_by([t], [t.album_artist, t.album])
     |> select_top_n(opts)
     |> Repo.all()
@@ -33,7 +33,7 @@ defmodule LocalFM.History.Stats do
 
   defp top_artist(query, opts) do
     query
-    |> select([t], {t.album_artist, count(t.id)})
+    |> select([t], {t.album_artist, fragment("count(?) as plays", t.id)})
     |> group_by([t], [t.album_artist])
     |> select_top_n(opts)
     |> Repo.all()
@@ -41,7 +41,7 @@ defmodule LocalFM.History.Stats do
 
   defp top_tracks(query, opts) do
     query
-    |> select([t], {{t.artist, t.album, t.track}, count(t.id)})
+    |> select([t], {{t.artist, t.album, t.track}, fragment("count(?) as plays", t.id)})
     |> group_by([t], [t.artist, t.album, t.track])
     |> select_top_n(opts)
     |> Repo.all()
@@ -61,7 +61,7 @@ defmodule LocalFM.History.Stats do
   end
 
   defp select_top_n(query, opts) do
-    query |> order_by([t], desc: count(t.id), desc: t.timestamp) |> limit(^opts.limit)
+    query |> order_by(fragment("plays DESC, timestamp DESC")) |> limit(^opts.limit)
   end
 
   defp select_totals(_query) do
