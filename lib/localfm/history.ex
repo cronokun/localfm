@@ -23,4 +23,8 @@ defmodule LocalFM.History do
   def insert(entry) when is_struct(entry, Entry) do
     %Track{} |> Track.changeset(Map.from_struct(entry)) |> Repo.insert()
   end
+
+  def fetch do
+    {:ok, Repo.all(Track)}
+  end
 end

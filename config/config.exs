@@ -2,7 +2,8 @@ import Config
 
 config :localfm, ecto_repos: [LocalFM.Repo]
 
-config :localfm, LocalFM.Repo, database: Path.expand("./priv/db/localfm.db"), log: false
+# , log: false
+config :localfm, LocalFM.Repo, database: Path.expand("./priv/db/localfm.db")
 
 config :localfm, LocalFM.Downloader,
   host: "moode.local",

@@ -3,9 +3,9 @@ defmodule LocalFM.Output.Text do
   @count_padding 6
   @total_padding 99
 
-  def print(%LocalFM.Stats{} = stats), do: stats |> render() |> IO.puts()
+  def print(stats), do: stats |> render() |> IO.puts()
 
-  def render(%LocalFM.Stats{} = stats) do
+  def render(stats) do
     date_range = date_range_to_s(stats.date_range)
 
     IO.iodata_to_binary([

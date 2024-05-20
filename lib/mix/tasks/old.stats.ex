@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Stats do
+defmodule Mix.Tasks.Old.Stats do
   @moduledoc "Generate and show play history stats"
   @shortdoc "Show play stats"
 
@@ -14,8 +14,11 @@ defmodule Mix.Tasks.Stats do
 
     IO.puts("\nProcessing statistics:\n")
 
-    info("Calculating statistics from database...")
-    {:ok, stats} = LocalFM.History.Stats.build(opts)
+    info("Reading data from DB...")
+    {:ok, entries} = LocalFM.History.fetch()
+
+    info("Calculating statistics...")
+    {:ok, stats} = LocalFM.generate_stats(entries, opts)
 
     info("Done!")
 
