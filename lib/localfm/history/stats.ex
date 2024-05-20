@@ -25,16 +25,16 @@ defmodule LocalFM.History.Stats do
 
   defp top_albums(query, opts) do
     query
-    |> select([t], {{t.artist, t.album}, count(t.id)})
-    |> group_by([t], [t.artist, t.album])
+    |> select([t], {{t.album_artist, t.album}, count(t.id)})
+    |> group_by([t], [t.album_artist, t.album])
     |> select_top_n(opts)
     |> Repo.all()
   end
 
   defp top_artist(query, opts) do
     query
-    |> select([t], {t.artist, count(t.id)})
-    |> group_by([t], [t.artist])
+    |> select([t], {t.album_artist, count(t.id)})
+    |> group_by([t], [t.album_artist])
     |> select_top_n(opts)
     |> Repo.all()
   end

@@ -9,66 +9,77 @@ defmodule LocalFM.StatsTest do
   @data [
     %Entry{
       artist: "Nicolas Jaar",
+      album_artist: "Nicolas Jaar",
       album: "A Time For Us / Mi Mujer",
       track: "A Time For Us",
       timestamp: ~N[2023-08-08 12:00:00]
     },
     %Entry{
       artist: "Nicolas Jaar",
+      album_artist: "Nicolas Jaar",
       album: "A Time For Us / Mi Mujer",
       track: "Mi Mujer",
       timestamp: ~N[2023-08-08 12:07:05]
     },
     %Entry{
       artist: "Burial",
+      album_artist: "Burial",
       album: "Chemz / Dolphinz",
       track: "Chemz",
       timestamp: ~N[2023-08-08 13:00:00]
     },
     %Entry{
       artist: "Burial",
+      album_artist: "Burial",
       album: "Chemz / Dolphinz",
       track: "Dolphinz",
       timestamp: ~N[2023-08-08 13:12:32]
     },
     %Entry{
       artist: "Kode9",
+      album_artist: "Kode9",
       album: "Infirmary / Unknown Summer",
       track: "Infirmary",
       timestamp: ~N[2023-08-08 14:00:00]
     },
     %Entry{
       artist: "Burial",
+      album_artist: "Burial",
       album: "Infirmary / Unknown Summer",
       track: "Unknown Summer",
       timestamp: ~N[2023-08-08 14:05:40]
     },
     %Entry{
       artist: "Nicolas Jaar",
+      album_artist: "Nicolas Jaar",
       album: "A Time For Us / Mi Mujer",
       track: "Mi Mujer",
       timestamp: ~N[2023-08-08 20:00:05]
     },
     %Entry{
       artist: "Burial",
+      album_artist: "Burial",
       album: "Chemz / Dolphinz",
       track: "Chemz",
       timestamp: ~N[2023-08-08 13:00:00]
     },
     %Entry{
       artist: "Kode9",
+      album_artist: "Kode9",
       album: "Infirmary / Unknown Summer",
       track: "Infirmary",
       timestamp: ~N[2023-08-09 10:00:00]
     },
     %Entry{
       artist: "Burial",
+      album_artist: "Burial",
       album: "Infirmary / Unknown Summer",
       track: "Unknown Summer",
       timestamp: ~N[2023-08-09 10:05:40]
     },
     %Entry{
       artist: "Nicolas Jaar",
+      album_artist: "Nicolas Jaar",
       album: "A Time For Us / Mi Mujer",
       track: "Mi Mujer",
       timestamp: ~N[2023-08-09 17:00:00]
@@ -122,120 +133,140 @@ defmodule LocalFM.StatsTest do
   @data [
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "25°C",
       timestamp: ~N[2022-08-09 14:00:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "0°C",
       timestamp: ~N[2022-08-09 14:05:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "17°C",
       timestamp: ~N[2022-08-09 14:10:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "14°C",
       timestamp: ~N[2022-08-09 14:15:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "2°C (Intermittent Rain)",
       timestamp: ~N[2022-08-09 14:20:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "10°C",
       timestamp: ~N[2022-08-09 14:25:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "6°C",
       timestamp: ~N[2022-08-09 14:30:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "4°C",
       timestamp: ~N[2022-08-09 14:35:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "30°C",
       timestamp: ~N[2022-08-09 14:40:00]
     },
     %Entry{
       artist: "Whatever the Weather",
+      album_artist: "Whatever the Weather",
       album: "Whatever the Weather",
       track: "36°C",
       timestamp: ~N[2022-08-09 14:45:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Fast Land",
       timestamp: ~N[2023-08-09 15:00:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Easy Prey",
       timestamp: ~N[2023-08-09 15:05:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Drum Glow",
       timestamp: ~N[2023-08-09 15:10:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Soft Edit",
       timestamp: ~N[2023-08-09 15:15:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Undo Redo",
       timestamp: ~N[2023-08-09 15:20:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Neon Rats",
       timestamp: ~N[2023-08-09 15:25:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "More Love",
       timestamp: ~N[2023-08-09 15:30:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Numb Bell",
       timestamp: ~N[2023-08-09 15:35:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Doom Hype",
       timestamp: ~N[2023-08-09 15:40:00]
     },
     %Entry{
       artist: "Moderat",
+      album_artist: "Moderat",
       album: "MORE D4TA",
       track: "Copy Copy",
       timestamp: ~N[2023-08-09 15:45:00]
@@ -284,60 +315,70 @@ defmodule LocalFM.StatsTest do
   @data [
     %Entry{
       artist: "Gorillaz feat. Thundercat",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Cracker Island",
       timestamp: ~N[2023-08-09 17:30:00]
     },
     %Entry{
       artist: "Gorillaz feat. Stevie Nicks",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Oil",
       timestamp: ~N[2023-08-09 17:31:00]
     },
     %Entry{
       artist: "Gorillaz",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "The Tired Influencer",
       timestamp: ~N[2023-08-09 17:32:00]
     },
     %Entry{
       artist: "Gorillaz feat. Adeleye Omotayo",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Silent Running",
       timestamp: ~N[2023-08-09 17:33:00]
     },
     %Entry{
       artist: "Gorillaz feat. Tame Impala & Bootie Brown",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "New Gold",
       timestamp: ~N[2023-08-09 17:34:00]
     },
     %Entry{
       artist: "Gorillaz",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Baby Queen",
       timestamp: ~N[2023-08-09 17:35:00]
     },
     %Entry{
       artist: "Gorillaz",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Tarantula",
       timestamp: ~N[2023-08-09 17:36:00]
     },
     %Entry{
       artist: "Gorillaz feat. Bad Bunny",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Tormenta",
       timestamp: ~N[2023-08-09 17:37:00]
     },
     %Entry{
       artist: "Gorillaz",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Skinny Ape",
       timestamp: ~N[2023-08-09 17:38:00]
     },
     %Entry{
       artist: "Gorillaz feat. Beck",
+      album_artist: "Gorillaz",
       album: "Cracker Island",
       track: "Possession Island",
       timestamp: ~N[2023-08-09 17:39:00]
@@ -357,17 +398,83 @@ defmodule LocalFM.StatsTest do
   end
 
   @data [
-    %Entry{artist: "Foo", album: "A1", track: "untitled", timestamp: ~N[2023-08-09 19:00:00]},
-    %Entry{artist: "Foo", album: "A1", track: "untitled", timestamp: ~N[2023-08-09 19:00:01]},
-    %Entry{artist: "Foo", album: "A1", track: "untitled", timestamp: ~N[2023-08-09 19:00:02]},
-    %Entry{artist: "Bar", album: "B1", track: "untitled", timestamp: ~N[2023-08-09 19:00:03]},
-    %Entry{artist: "Bar", album: "B1", track: "untitled", timestamp: ~N[2023-08-09 19:00:04]},
-    %Entry{artist: "Bar", album: "B2", track: "untitled", timestamp: ~N[2023-08-09 19:00:05]},
-    %Entry{artist: "Car", album: "C1", track: "untitled", timestamp: ~N[2023-08-09 19:00:06]},
-    %Entry{artist: "Car", album: "C1", track: "untitled", timestamp: ~N[2023-08-09 19:00:07]},
-    %Entry{artist: "Car", album: "C1", track: "untitled", timestamp: ~N[2023-08-09 19:00:08]},
-    %Entry{artist: "Der", album: "D1", track: "untitled", timestamp: ~N[2023-08-09 19:00:09]},
-    %Entry{artist: "Der", album: "D1", track: "untitled", timestamp: ~N[2023-08-09 19:00:10]}
+    %Entry{
+      artist: "Foo",
+      album_artist: "Foo",
+      album: "A1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:00]
+    },
+    %Entry{
+      artist: "Foo",
+      album_artist: "Foo",
+      album: "A1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:01]
+    },
+    %Entry{
+      artist: "Foo",
+      album_artist: "Foo",
+      album: "A1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:02]
+    },
+    %Entry{
+      artist: "Bar",
+      album_artist: "Bar",
+      album: "B1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:03]
+    },
+    %Entry{
+      artist: "Bar",
+      album_artist: "Bar",
+      album: "B1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:04]
+    },
+    %Entry{
+      artist: "Bar",
+      album_artist: "Bar",
+      album: "B2",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:05]
+    },
+    %Entry{
+      artist: "Car",
+      album_artist: "Car",
+      album: "C1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:06]
+    },
+    %Entry{
+      artist: "Car",
+      album_artist: "Car",
+      album: "C1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:07]
+    },
+    %Entry{
+      artist: "Car",
+      album_artist: "Car",
+      album: "C1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:08]
+    },
+    %Entry{
+      artist: "Der",
+      album_artist: "Der",
+      album: "D1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:09]
+    },
+    %Entry{
+      artist: "Der",
+      album_artist: "Der",
+      album: "D1",
+      track: "untitled",
+      timestamp: ~N[2023-08-09 19:00:10]
+    }
   ]
 
   test ".generate/2 limits top N artists/albums/tracks" do
@@ -402,17 +509,77 @@ defmodule LocalFM.StatsTest do
     past_month = NaiveDateTime.add(now, -31, :day)
 
     data = [
-      %Entry{artist: "Foo", album: "A1", track: "untitled", timestamp: past_month},
-      %Entry{artist: "Foo", album: "A1", track: "untitled", timestamp: past_month},
-      %Entry{artist: "Foo", album: "A1", track: "untitled", timestamp: past_month},
-      %Entry{artist: "Bar", album: "B1", track: "untitled", timestamp: past_month},
-      %Entry{artist: "Bar", album: "B1", track: "untitled", timestamp: past_month},
-      %Entry{artist: "Bar", album: "B2", track: "untitled", timestamp: past_month},
-      %Entry{artist: "Car", album: "C1", track: "untitled", timestamp: this_month},
-      %Entry{artist: "Car", album: "C1", track: "untitled", timestamp: this_month},
-      %Entry{artist: "Car", album: "C1", track: "untitled", timestamp: this_month},
-      %Entry{artist: "Der", album: "D1", track: "untitled", timestamp: this_month},
-      %Entry{artist: "Der", album: "D1", track: "untitled", timestamp: now}
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "A1",
+        track: "untitled",
+        timestamp: past_month
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "A1",
+        track: "untitled",
+        timestamp: past_month
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "A1",
+        track: "untitled",
+        timestamp: past_month
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "B1",
+        track: "untitled",
+        timestamp: past_month
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "B1",
+        track: "untitled",
+        timestamp: past_month
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "B2",
+        track: "untitled",
+        timestamp: past_month
+      },
+      %Entry{
+        artist: "Car",
+        album_artist: "Car",
+        album: "C1",
+        track: "untitled",
+        timestamp: this_month
+      },
+      %Entry{
+        artist: "Car",
+        album_artist: "Car",
+        album: "C1",
+        track: "untitled",
+        timestamp: this_month
+      },
+      %Entry{
+        artist: "Car",
+        album_artist: "Car",
+        album: "C1",
+        track: "untitled",
+        timestamp: this_month
+      },
+      %Entry{
+        artist: "Der",
+        album_artist: "Der",
+        album: "D1",
+        track: "untitled",
+        timestamp: this_month
+      },
+      %Entry{artist: "Der", album_artist: "Der", album: "D1", track: "untitled", timestamp: now}
     ]
 
     assert {:ok,
@@ -441,19 +608,97 @@ defmodule LocalFM.StatsTest do
 
   test ".generate/2 generates total stats" do
     data = [
-      %Entry{artist: "Foo", album: "AAA", track: "A1", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Foo", album: "AAA", track: "A2", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Foo", album: "AAA", track: "A3", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Foo", album: "BBB", track: "B1", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Foo", album: "BBB", track: "B2", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Foo", album: "BBB", track: "B3", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Car", album: "CCC", track: "C1", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Car", album: "CCC", track: "C2", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Car", album: "CCC", track: "C3", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Bar", album: "DDD", track: "D1", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Bar", album: "DDD", track: "D2", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Bar", album: "DDD", track: "D3", timestamp: ~N[2024-04-25 00:00:00]},
-      %Entry{artist: "Bar", album: "DDD", track: "D4", timestamp: ~N[2024-04-25 00:00:00]}
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "AAA",
+        track: "A1",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "AAA",
+        track: "A2",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "AAA",
+        track: "A3",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "BBB",
+        track: "B1",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "BBB",
+        track: "B2",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Foo",
+        album_artist: "Foo",
+        album: "BBB",
+        track: "B3",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Car",
+        album_artist: "Car",
+        album: "CCC",
+        track: "C1",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Car",
+        album_artist: "Car",
+        album: "CCC",
+        track: "C2",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Car",
+        album_artist: "Car",
+        album: "CCC",
+        track: "C3",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "DDD",
+        track: "D1",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "DDD",
+        track: "D2",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "DDD",
+        track: "D3",
+        timestamp: ~N[2024-04-25 00:00:00]
+      },
+      %Entry{
+        artist: "Bar",
+        album_artist: "Bar",
+        album: "DDD",
+        track: "D4",
+        timestamp: ~N[2024-04-25 00:00:00]
+      }
     ]
 
     assert {:ok, %Stats{totals: %{plays: 13, artists: 3, albums: 4}}} =

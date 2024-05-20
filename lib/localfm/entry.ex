@@ -1,9 +1,10 @@
 defmodule LocalFM.Entry do
-  defstruct [:artist, :album, :track, :timestamp]
+  defstruct [:artist, :album, :album_artist, :track, :timestamp]
 
   @type t :: %__MODULE__{
           artist: String.t(),
           album: String.t(),
+          album_artist: String.t(),
           track: String.t(),
           timestamp: NaiveDateTime.t()
         }
@@ -16,6 +17,7 @@ defmodule LocalFM.Entry do
     %__MODULE__{
       album: attrs["album"],
       artist: attrs["artist"],
+      album_artist: get_album_artist(attrs),
       track: attrs["track"],
       timestamp: parse_timestamp(attrs["timestamp"])
     }
@@ -51,4 +53,26 @@ defmodule LocalFM.Entry do
 
     timestamp
   end
+
+  defp get_album_artist(%{"album" => album, "artist" => artist}) do
+    if compilation?(album) do
+      "Various Artists"
+    else
+      artist |> String.split(" feat. ") |> List.first()
+    end
+  end
+
+  @compilation_albums [
+    ~r/latenighttales/iu,
+    ~r/pop ambient/iu,
+    ~r/café del mar/iu,
+    ~r/hôtel costes/iu,
+    ~r/erased tapes collection/iu,
+    ~r/blue note trip/iu,
+    ~r/dj.kicks/iu,
+    ~r/saint-germain-des-prés/iu
+  ]
+
+  # FIXME: better way to detect compilations?
+  defp compilation?(album), do: Enum.any?(@compilation_albums, &String.match?(album, &1))
 end

@@ -42,13 +42,13 @@ defmodule LocalFM.Stats do
   end
 
   defp put_top_albums(stats, data, range, limit) do
-    top_albums = process_data(data, range, limit, fn t -> {album_artist(t), t.album} end)
+    top_albums = process_data(data, range, limit, fn t -> {t.album_artist, t.album} end)
 
     Map.put(stats, :top_albums, top_albums)
   end
 
   defp put_top_artists(stats, data, range, limit) do
-    top_artists = process_data(data, range, limit, fn t -> album_artist(t) end)
+    top_artists = process_data(data, range, limit, fn t -> t.album_artist end)
 
     Map.put(stats, :top_artists, top_artists)
   end
@@ -76,17 +76,17 @@ defmodule LocalFM.Stats do
     {{a, b, c}, _, _} =
       Enum.reduce(data, init, fn e, {{a, b, c}, artists, albums} = acc ->
         if in_range.(e) do
-          new_album = not MapSet.member?(albums, {album_artist(e), e.album})
-          new_artist = not MapSet.member?(artists, album_artist(e))
+          new_album = not MapSet.member?(albums, {e.album_artist, e.album})
+          new_artist = not MapSet.member?(artists, e.album_artist)
 
           case {new_artist, new_album} do
             {true, true} ->
-              artists = MapSet.put(artists, album_artist(e))
-              albums = MapSet.put(albums, {album_artist(e), e.album})
+              artists = MapSet.put(artists, e.album_artist)
+              albums = MapSet.put(albums, {e.album_artist, e.album})
               {{a + 1, b + 1, c + 1}, artists, albums}
 
             {false, true} ->
-              albums = MapSet.put(albums, {album_artist(e), e.album})
+              albums = MapSet.put(albums, {e.album_artist, e.album})
               {{a + 1, b, c + 1}, artists, albums}
 
             {false, false} ->
@@ -106,29 +106,6 @@ defmodule LocalFM.Stats do
     |> Enum.frequencies_by(selector)
     |> Enum.sort_by(fn {_, n} -> n end, :desc)
     |> Enum.take(limit)
-  end
-
-  defp album_artist(entry) do
-    if compilation?(entry.album) do
-      "Various Artists"
-    else
-      song_artist(entry)
-    end
-  end
-
-  defp song_artist(entry) do
-    entry.artist |> String.split(" feat. ") |> List.first()
-  end
-
-  @comp_regexes [
-    ~r/latenighttales/iu,
-    ~r/pop ambient/iu,
-    ~r/café del mar/iu,
-    ~r/hotel costes/iu
-  ]
-
-  defp compilation?(album) do
-    Enum.any?(@comp_regexes, fn reg -> String.match?(album, reg) end)
   end
 
   defp put_date_range(stats, range), do: %{stats | date_range: range}

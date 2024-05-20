@@ -21,60 +21,70 @@ defmodule LocalFM.ParserTest do
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Golden Diva",
       timestamp: ~N[2023-08-03 12:20:00]
     },
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Riot",
       timestamp: ~N[2023-08-03 12:24:00]
     },
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "GNG BNG",
       timestamp: ~N[2023-08-03 12:28:00]
     },
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Parisian Goldfish",
       timestamp: ~N[2023-08-03 12:32:00]
     },
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Sleepy Dinosaur",
       timestamp: ~N[2023-08-03 12:35:00]
     },
     %Entry{
       artist: "Flying Lotus feat. Dolly",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "RobertaFlack",
       timestamp: ~N[2023-08-03 12:37:00]
     },
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "SexSlaveShip",
       timestamp: ~N[2023-08-03 12:40:00]
     },
     %Entry{
       artist: "Flying Lotus",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Auntie's Harp",
       timestamp: ~N[2023-08-03 12:42:00]
     },
     %Entry{
       artist: "Flying Lotus feat. Gonja Sufi",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Testament",
       timestamp: ~N[2023-08-03 12:43:00]
     },
     %Entry{
       artist: "Flying Lotus feat. Laura Darlington",
       album: "Los Angeles",
+      album_artist: "Flying Lotus",
       track: "Auntie's Lock / Infinitum",
       timestamp: ~N[2023-08-03 12:45:00]
     }
@@ -94,6 +104,7 @@ defmodule LocalFM.ParserTest do
               %Entry{
                 artist: "David Holmes",
                 album: "π - Music For The Motion Picture",
+                album_artist: "David Holmes",
                 track: "No Man's Land",
                 timestamp: ~N[2023-02-28 15:26:00]
               }
@@ -111,6 +122,7 @@ defmodule LocalFM.ParserTest do
             [
               %Entry{
                 artist: "Brian Eno",
+                album_artist: "Brian Eno",
                 album: "Thursday Afternoon",
                 track: "Thursday Afternoon",
                 timestamp: ~N[2023-08-07 11:07:00]
