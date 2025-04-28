@@ -1,7 +1,6 @@
 defmodule LocalFM.Output.Text do
   @index_padding 4
   @count_padding 6
-  @total_padding 99
 
   def print(%LocalFM.Stats{} = stats), do: stats |> render() |> IO.puts()
 
@@ -37,7 +36,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp format_section_header(header, date_range) do
-    pad_length = @total_padding - printable_length(header) - printable_length(date_range) - 2
+    pad_length = total_padding() - printable_length(header) - printable_length(date_range) - 2
     padding = String.duplicate(" ", pad_length)
     section_header = (" " <> header <> " ") |> reverse_str()
 
@@ -83,7 +82,7 @@ defmodule LocalFM.Output.Text do
     timestamp = Calendar.strftime(timestamp, "%d %b %Y, %H:%M")
 
     padding_length =
-      @total_padding - printable_length(track) - printable_length(artist) -
+      total_padding() - printable_length(track) - printable_length(artist) -
         printable_length(timestamp) - 5
 
     [
@@ -112,7 +111,7 @@ defmodule LocalFM.Output.Text do
   end
 
   defp padding(length) do
-    padding_length = max(@total_padding - @count_padding - @index_padding - length, 1)
+    padding_length = max(total_padding() - @count_padding - @index_padding - length, 1)
 
     String.duplicate(" ", padding_length)
   end
@@ -142,4 +141,6 @@ defmodule LocalFM.Output.Text do
       end
     end)
   end
+
+  defp total_padding, do: Application.get_env(:localfm, :columns) - 1
 end

@@ -11,16 +11,29 @@ local MoodeAudio setup.
 mix deps.get
 mix deps.compile
 mix compile
-mix escript.build
 ```
 
 2. Run:
 
+To get statistics from moode.local:
+
 ```
-MOODE_CREDS="pi:password" ./localfm -n 20 -d 90
+mix stats -a
 ```
 
-or without building escript:
+To show stats from CSV file:
+
+```
+mix stats -s data.csv
+```
+
+To export stats to a CSV file:
+
+```
+mix export data.csv
+```
+
+You can also run code with:
 
 ```
 MOODE_CREDS="pi:password" mix run -e "LocalFM.CLI.main([\"--all-time\"])"

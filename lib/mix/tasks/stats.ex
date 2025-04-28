@@ -8,6 +8,7 @@ defmodule Mix.Tasks.Stats do
 
   @impl Mix.Task
   def run(args) do
+    set_term_size()
     opts = LocalFM.Options.parse(args)
 
     IO.puts("\nProcessing statistics:\n")
@@ -39,5 +40,11 @@ defmodule Mix.Tasks.Stats do
 
   defp info(msg) when is_binary(msg) do
     IO.puts("\e[1;32m[ info ]\e[0m  #{msg}")
+  end
+
+  defp set_term_size do
+    {raw, _} = System.shell("tput cols")
+    {w, _} = Integer.parse(raw)
+    Application.put_env(:localfm, :columns, w)
   end
 end
